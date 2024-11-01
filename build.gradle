@@ -1,0 +1,41 @@
+plugins {
+    id 'java-library'
+    id 'java'
+}
+
+group 'org.geyser.extension.plushie'
+version '1.0.0'
+
+repositories {
+    maven {
+        url = uri("https://repo.opencollab.dev/main/")
+    }
+    maven {
+        url 'https://repo.opencollab.dev/maven-releases'
+        mavenContent {
+            releasesOnly()
+        }
+    }
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    // Geyser API - needed for all extensions
+    compileOnly('org.geysermc.geyser:api:2.4.2-SNAPSHOT')
+    compileOnly 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21)) // Set this to match your runtime Java version
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
