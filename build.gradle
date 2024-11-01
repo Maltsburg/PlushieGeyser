@@ -3,7 +3,7 @@ plugins {
     id 'java'
 }
 
-group 'org.geyser.extension.plushie'
+group 'com.maltsburg.plushie'
 version '1.0.0'
 
 repositories {
