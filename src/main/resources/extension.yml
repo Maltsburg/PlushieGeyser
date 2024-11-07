@@ -1,6 +1,6 @@
-id: plushies_geyser
-name: PlushieGeyser
-main: com.maltsburg.plushies.PlushieGeyser
-api: 2.4.1
-version: 1.0.0
+id: plushie_geyser
+name: '${name}'
+version: '${version}'
+main: '${group}.${name}'
+api: 2.4.2
 author: IndiaPaleAle
