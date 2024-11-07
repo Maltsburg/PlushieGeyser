@@ -4,8 +4,10 @@ import org.geysermc.geyser.api.event.lifecycle.GeyserDefineCustomItemsEvent;
 import org.geysermc.geyser.api.item.custom.CustomItemData;
 import org.geysermc.geyser.api.item.custom.CustomItemOptions;
 
-public class ItemBuilder {
+import java.util.logging.Logger;
 
+public class ItemBuilder {
+    private static final Logger log = Logger.getLogger("Plushie-Geyser");
     public void buildAndRegisterItem(GeyserDefineCustomItemsEvent event, int cmd, String name, String itemType) {
 
         CustomItemOptions itemOptions = CustomItemOptions.builder()

@@ -1,5 +1,6 @@
 package com.maltsburg.plushies.geyser;
 
+import com.maltsburg.plushies.geyser.loaders.Edulis;
 import com.maltsburg.plushies.geyser.loaders.Plushies;
 import com.maltsburg.plushies.geyser.utils.ItemBuilder;
 import org.geysermc.event.subscribe.Subscribe;
@@ -13,5 +14,6 @@ public class PlushiesGeyser implements Extension {
     @Subscribe
     public void onEnable(GeyserDefineCustomItemsEvent event) {
         Plushies.loadPlushieData(event, itemBuilder);
+        Edulis.loadEdulisData(event,itemBuilder);
     }
 }
