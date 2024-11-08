@@ -15,9 +15,9 @@ public class Edulis {
 
     public static void loadEdulisData(GeyserDefineCustomItemsEvent event, ItemBuilder itemBuilder) {
 
-        File pluginFolder = loadPluginFolder();
-        if (pluginFolder == null) {
-            log.warning("Edulis folder could not be loaded.");
+        File pluginFolder = new File(Bukkit.getServer().getWorldContainer(), "plugins/Edulis");
+        if (!pluginFolder.exists() || !pluginFolder.isDirectory()) {
+            log.warning("Edulis folder not found.");
             return;
         }
 
@@ -31,33 +31,14 @@ public class Edulis {
             registerItems(event, smokerData, itemBuilder);
         }
 
-        Map<String, Object[]> cakeData = CakeSlices.load(pluginFolder, "cakes.yml");
-        if (!cakeData.isEmpty()) {
-            registerItems(event, cakeData, itemBuilder);
+        String[] files = {"cakes", "mob_drops", "ingredients"};
+
+        for (String file : files) {
+            Map<String, Object[]> data = Items.load(pluginFolder, file);
+            if (!data.isEmpty()) {
+                registerItems(event, data, itemBuilder);
+            }
         }
-
-        Map<String, Object[]> mobData = MobDrops.load(pluginFolder, "mob_drops.yml");
-        if (!mobData.isEmpty()) {
-            registerItems(event, mobData, itemBuilder);
-        }
-
-        Map<String, Object[]> ingData = Ingredients.load(pluginFolder, "ingredients.yml");
-        if (!ingData.isEmpty()) {
-            registerItems(event, ingData, itemBuilder);
-        }
-    }
-
-    private static File loadPluginFolder() {
-        File pluginsDir = new File(Bukkit.getServer().getWorldContainer(), "plugins");
-
-        // Get the plugin folder by name
-        File pluginFolder = new File(pluginsDir, "Edulis");
-
-        // Check if the plugin folder exists
-        if (!pluginFolder.exists() || !pluginFolder.isDirectory()) {
-            return null;
-        }
-        return pluginFolder;
     }
 
     private static void registerItems(GeyserDefineCustomItemsEvent event, Map<String, Object[]> data, ItemBuilder itemBuilder) {
