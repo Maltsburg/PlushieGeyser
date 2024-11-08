@@ -4,11 +4,11 @@ import org.geysermc.geyser.api.event.lifecycle.GeyserDefineCustomItemsEvent;
 import org.geysermc.geyser.api.item.custom.CustomItemData;
 import org.geysermc.geyser.api.item.custom.CustomItemOptions;
 
-import java.util.logging.Logger;
-
 public class ItemBuilder {
-    private static final Logger log = Logger.getLogger("Plushie-Geyser");
     public void buildAndRegisterItem(GeyserDefineCustomItemsEvent event, int cmd, String name, String itemType) {
+
+        String cleanName = name.replaceAll("\\..*$", "");
+        String displayName = cleanName.replaceAll("_"," ");
 
         CustomItemOptions itemOptions = CustomItemOptions.builder()
                 .customModelData(cmd)
@@ -16,9 +16,9 @@ public class ItemBuilder {
 
         CustomItemData data = CustomItemData.builder()
                 .name(name)
-                .displayName(name)
+                .displayName(displayName)
                 .allowOffhand(true)
-                .icon(name)
+                .icon(cleanName)
                 .customItemOptions(itemOptions)
                 .build();
 

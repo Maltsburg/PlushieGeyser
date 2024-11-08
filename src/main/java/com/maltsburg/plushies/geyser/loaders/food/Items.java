@@ -9,25 +9,27 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-public class MobDrops {
+public class Items {
     private static final Logger log = Logger.getLogger("Plushie-Geyser");
 
     public static Map<String, Object[]> load(File folder, String fileName) {
-        Map<String, Object[]> mobData = new HashMap<>();
+        Map<String, Object[]> fileData = new HashMap<>();
 
-        File mobFile = new File(folder, fileName);
+        File file = new File(folder, fileName + ".yml");
 
-        if (!mobFile.exists()) {
+        if (!file.exists()) {
             log.warning(fileName + " does not exist in the folder " + folder.getName());
-            return mobData;
+            return fileData;
         }
 
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(mobFile);
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-        ConfigurationSection dropSection = config.getConfigurationSection("drops");
+        fileName = fileName.equals("mob_drops") ? "drops" : fileName;
+
+        ConfigurationSection dropSection = config.getConfigurationSection(fileName);
         if (dropSection == null) {
-            log.warning("No 'recipes' section found in file " + mobFile.getName());
-            return mobData;
+            log.warning("no config section found in file " + file.getName());
+            return fileData;
         }
 
         Set<String> recipeKeys = dropSection.getKeys(false);
@@ -36,7 +38,7 @@ public class MobDrops {
             ConfigurationSection recipeSection = dropSection.getConfigurationSection(recipeKey);
 
             if (recipeSection == null) {
-                log.warning("No section found for recipe '" + recipeKey + "' in file " + mobFile.getName());
+                log.warning("No section found for recipe '" + recipeKey + "' in file " + file.getName());
                 continue;
             }
 
@@ -44,13 +46,13 @@ public class MobDrops {
             int customModelData = recipeSection.getInt("customModelData", -1);
 
             if (material == null || customModelData == -1) {
-                log.warning("Missing 'material' or 'customModelData' for recipe '" + recipeKey + "' in file " + mobFile.getName());
+                log.warning("Missing 'material' or 'customModelData' for recipe '" + recipeKey + "' in file " + file.getName());
                 continue;
             }
 
-            mobData.put(recipeKey.toLowerCase(), new Object[]{material, customModelData});
+            fileData.put(recipeKey.toLowerCase(), new Object[]{material, customModelData});
         }
-        return mobData;
+        return fileData;
     }
 
 }
